@@ -1,0 +1,18 @@
+[package]
+name = "matrix"
+version = "0.1.0"
+authors = ["Oliver Archer <oliver@archer.fi"]
+edition = "2018"
+autotests = false
+
+[lib]
+proc-macro = true
+
+[[test]]
+name = "tests"
+path = "tests/trybuild.rs"
+
+[dev-dependencies]
+trybuild = { version = "1.0", features = ["diff"] }
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
