@@ -5,5 +5,5 @@ fn tests() {
     t.compile_fail("./tests/3d_array.rs");
     t.compile_fail("./tests/diff_len_arrs.rs");
 
-    // TODO: Implement more tests for macro when initial implemention is complete
+    t.pass("./tests/correct_output.rs");
 }
