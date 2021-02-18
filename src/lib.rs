@@ -28,6 +28,9 @@ impl Parse for MatrixInput {
     }
 }
 
+// Sub trait of mul to allow matrices to be identified as such
+// trait Matrix<T: std::ops::Mul = Self> {}
+
 #[proc_macro]
 pub fn matrix(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as MatrixInput);
@@ -58,19 +61,31 @@ pub fn matrix(input: TokenStream) -> TokenStream {
             }
         }
 
-        impl<U> std::ops::Index<[U; 2]> for #matrix
+        impl<I> std::ops::Index<[I; 2]> for #matrix
         where
-            U: std::convert::Into<usize> + std::marker::Copy,
-            usize: std::ops::Mul<U, Output = usize> + std::ops::Add<U, Output = usize>,
+            I: std::convert::Into<usize> + std::marker::Copy,
+            usize: std::ops::Mul<I, Output = usize> + std::ops::Add<I, Output = usize>,
+            // O: std::convert::Into<i64>,
         {
-            // TODO: This has to be made more generic if the rest of the macro is made more generic
             type Output = i32;
 
-            fn index(&self, idx: [U; 2]) -> &Self::Output {
+            fn index(&self, idx: [I; 2]) -> &Self::Output {
                 let index = #x_dim * idx[1] + idx[0];
                 &self.0[index]
             }
         }
+
+
+        // Can't have recursive procedural macros therefore this is not possible
+        impl<I: Matrix> std::ops::Mul<I> for #matrix {
+            type Output = I;
+
+            fn mul(&self, m: M) {
+                matrix!([1, 2, 3]);
+            }
+        }
+
+        impl Matrix for #matrix {};
 
         #matrix(#output_arr)
     }})
