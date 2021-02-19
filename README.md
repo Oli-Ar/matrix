@@ -7,8 +7,12 @@ within it.
 
 ### TODO:
 - [ ] Write a tests to ensure that as the project is written it is working as expected
-- [ ] Create a matrix structure which can accept multiple numerical data types
-- [ ] Implement a trait allowing for the matrices to be indexed
-- [ ] Implement addition and subtraction to the matrices
-- [ ] Implement multiplication (and division) for the matrix structure
-- [ ] Optimise the operations
+- [x] Create a matrix structure which can accept multiple numerical data types
+    - [x] Implement display trait
+    - [ ] Implement a trait allowing for the matrices to be indexed
+    - [ ] Implement addition and subtraction to the matrices
+    - [ ] Implement multiplication (and division) for the matrix structure
+        - [ ] Method to multiply matrix by integer
+        - [ ] Method to multiply matrix by matrix
+- [ ] Optimise operations such as addition for the matrix
+- [ ] Write a macro allowing for multiple matrices to be multiplied together
