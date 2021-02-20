@@ -1,18 +1,13 @@
-use super::*;
+use super::{Data, Matrix};
 
 impl<D: Data, const N: usize> Matrix<D, { N }> {
-    // TODO: error should be an enum not an int
-    pub fn new<const X: usize, const Y: usize>(data: [[D; X]; Y]) -> Result<Self, i32> {
-        for sub in data.iter() {
-            if sub.len() != X {
-                return Err(0);
-            }
-        }
+    // Result return is not necessary as rust will require the matrix to be X by Y at compile time
+    pub fn new<const X: usize, const Y: usize>(data: [[D; X]; Y]) -> Self {
         let mut dat: [D; N] = [0.into(); N];
         for i in 0..dat.len() {
-            dat[i] = data[i / Y][i % X];
+            dat[i] = data[i / X][i % X];
         }
-        Ok(Matrix { dat, x: X, y: Y })
+        Matrix { dat, x: X, y: Y }
     }
 
     // To create column vectors without having to pass in [[1], [2], [3], ... , [n]]
@@ -21,4 +16,6 @@ impl<D: Data, const N: usize> Matrix<D, { N }> {
     pub fn vector(dat: [D; N]) -> Self {
         Matrix { dat, x: 1, y: N }
     }
+
+    // TODO: Write method to create a random matrix of a given size
 }
