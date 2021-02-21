@@ -1,6 +1,6 @@
 use super::{Data, Matrix};
 use std::fmt::{Display, Formatter};
-use std::ops::Index;
+use std::ops::{Index, Mul};
 
 impl<T: Data, const N: usize> Display for Matrix<T, { N }> {
     // Prints a two dimensional representaion of the matrix
@@ -23,5 +23,24 @@ impl<T: Data, const N: usize> Index<[usize; 2]> for Matrix<T, { N }> {
             panic!("Index out of bounds.");
         }
         &self.dat[index[1] * self.x + index[0]]
+    }
+}
+
+// Multiplication implementation for number * matrix
+impl<T, const N: usize> Mul<T> for Matrix<T, { N }>
+where
+    T: Data + Mul<Output = T>,
+{
+    type Output = Self;
+    fn mul(self, rhs: T) -> Self::Output {
+        let mut dat_copy = self.dat;
+        for (i, e) in self.dat.iter().enumerate() {
+            dat_copy[i] = rhs * *e;
+        }
+        Matrix {
+            dat: dat_copy,
+            x: self.x,
+            y: self.y,
+        }
     }
 }

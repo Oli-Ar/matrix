@@ -18,8 +18,10 @@ to be stored within it.
         - [ ] Implement a method for indexing without the possibility of panicking
     - [ ] Implement addition and subtraction to the matrices
     - [ ] Implement multiplication (and division) for the matrix structure
-        - [ ] Method to multiply matrix by a integer
+        - [x] Implemet scalar multiplication for matrix
         - [ ] Method to multiply matrix by a matrix
+        - [ ] Method to divide matrix by a integer
+        - [ ] Implement divion by of a matrix by a matrix
 - [ ] Optimise operations such as addition for the matrix
     - [ ] Possibily add GPU acceleration
 - [ ] Write a macro allowing for multiple matrices to be multiplied together
