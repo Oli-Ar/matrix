@@ -17,5 +17,5 @@ pub struct Matrix<D: Data, const N: usize> {
 #[derive(Debug, PartialEq)]
 pub enum MatrixError {
     // For operations such as trying to add two different sized matrices
-    IncompatibleOperation(&'static str),
+    InvalidOperation(String),
 }
