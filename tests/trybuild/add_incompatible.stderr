@@ -1,8 +1,8 @@
 error[E0308]: mismatched types
-  --> $DIR/add_incompatible.rs:21:16
+  --> $DIR/add_incompatible.rs:19:16
    |
-21 |     matrix_1 + matrix_2;
-   |                ^^^^^^^^ expected `24_usize`, found `9_usize`
+19 |     matrix_1 + matrix_2;
+   |                ^^^^^^^^ expected `6_usize`, found `3_usize`
    |
-   = note: expected struct `Matrix<_, 24_usize>`
-              found struct `Matrix<_, 9_usize>`
+   = note: expected struct `Matrix<_, 6_usize, 4_usize>`
+              found struct `Matrix<i32, 3_usize, 3_usize>`

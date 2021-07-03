@@ -1,7 +1,8 @@
 use matrix::matrix::Matrix;
 
-const LENGTH: usize = 9;
+const M: usize = 3;
+const N: usize = 3;
 
 fn main() {
-    let _ = Matrix::<i32, LENGTH>::new([[1, 2, 3], [4, 5, 6], [7]]);
+    let _ = Matrix::<i32, M, N>::new([[1, 2, 3], [4, 5, 6], [7]]);
 }
