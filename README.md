@@ -8,20 +8,19 @@ to be stored within it.
 ### TODO:
 - [ ] Write tests to ensure that as the project is written it is working as expected
     - [x] Tests for matrix creation
-    - [ ] Test for matrix from array
     - [x] Indexing tests
     - [ ] Tests for addition and subtraction
-    - [ ] Multipliaction and division operation test
+    - [ ] Multipliaction operation test
 - [x] Create a matrix structure which can accept multiple numerical data types
     - [x] Implement display trait
     - [x] Implement a trait allowing for the matrices to be indexed
         - [ ] Implement a method for indexing without the possibility of panicking
     - [ ] Implement addition and subtraction to the matrices
-    - [ ] Implement multiplication (and division) for the matrix structure
+        - [x] Implement addition
+        - [ ] Implement subtraction
+    - [x] Implement multiplication for the matrix structure
         - [x] Implemet scalar multiplication for matrix
-        - [ ] Method to multiply matrix by a matrix
-        - [ ] Method to divide matrix by a integer
-        - [ ] Implement divion by of a matrix by a matrix
+        - [x] Method to multiply matrix by a matrix
 - [ ] Optimise operations such as addition for the matrix
     - [ ] Possibily add GPU acceleration
 - [ ] Write a macro allowing for multiple matrices to be multiplied together
