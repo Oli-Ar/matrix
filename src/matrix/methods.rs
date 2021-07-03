@@ -15,4 +15,11 @@ where
         let dat: &[D; M * N] = unsafe { std::mem::transmute::<&[[D; N]; M], &[D; M * N]>(&data) };
         Matrix { dat: *dat }
     }
+
+    // To create column vectors without having to pass in [[1], [2], [3], ... , [n]]
+    // Doesn't return a result as the function can't fail as long as the passed arguments can be
+    // passed
+    pub const fn vector(dat: [D; M * N]) -> Self {
+        Matrix { dat }
+    }
 }
