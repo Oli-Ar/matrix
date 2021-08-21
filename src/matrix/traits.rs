@@ -1,7 +1,7 @@
 // NOTE: For some reason the kernel panics if the return type is changed from the explicit type
 // to 'Self::Output' DO NOT CHANGE THE RETURN TYPES output has to be set to satisfy the traits
 use super::{Data, Matrix};
-use std::ops::{Add, Index, Mul};
+use std::ops::{Add, Index, Mul, Sub};
 use std::{
     fmt::{Display, Formatter},
     usize,
@@ -46,6 +46,23 @@ where
 {
     type Output = Self;
     fn add(self, other: Matrix<U, X, Y>) -> Self {
+        // Clone data then add second array to each value
+        let mut dat: [T; X * Y] = self.dat;
+        for i in 0..X * Y {
+            dat[i] = dat[i] + other.dat[i];
+        }
+        Matrix { dat }
+    }
+}
+
+impl<T, U, const X: usize, const Y: usize> Sub<Matrix<U, X, Y>> for Matrix<T, X, Y>
+where
+    [T; X * Y]: Sized,
+    T: Data + Add<U, Output = T>,
+    U: Data,
+{
+    type Output = Self;
+    fn sub(self, other: Matrix<U, X, Y>) -> Self {
         // Clone data then add second array to each value
         let mut dat: [T; X * Y] = self.dat;
         for i in 0..X * Y {
