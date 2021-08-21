@@ -3,7 +3,8 @@ use matrix::matrix::Matrix;
 #[test]
 fn new() {
     let matrix_1 = Matrix::<i32, 4, 2>::new([[1, 2], [3, 4], [5, 6], [7, 8]]);
-    assert_eq!(matrix_1.data(), [1, 2, 3, 4, 5, 6, 7, 8]);
+    assert_eq!(matrix_1.data(), [[1, 2], [3, 4], [5, 6], [7, 8]]);
+    assert_eq!(matrix_1.raw(), [1, 2, 3, 4, 5, 6, 7, 8]);
 }
 
 // We can verify that new works therefore we can verify vector works as it is a function for
