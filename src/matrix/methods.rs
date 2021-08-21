@@ -1,9 +1,9 @@
 use super::{Data, Matrix};
 use std::mem::transmute;
 
-impl<D: Data, const M: usize, const N: usize> Matrix<D, M, N>
+impl<D, const M: usize, const N: usize> Matrix<D, M, N>
 where
-    D: From<i32>,
+    D: Data,
     [D; M * N]: Sized,
 {
     // Compiler will assets that passed in array is correct size so returing a result is not
