@@ -17,13 +17,6 @@ where
         Matrix { dat: *dat }
     }
 
-    // To create column vectors without having to pass in [[1], [2], [3], ... , [n]]
-    // Doesn't return a result as the function can't fail as long as the passed arguments can be
-    // passed
-    pub const fn vector(dat: [D; M * N]) -> Self {
-        Matrix { dat }
-    }
-
     // For getting the raw data stored in the matrix struct
     pub const fn raw(self) -> [D; M * N] {
         self.dat
@@ -34,5 +27,19 @@ where
     // this should be fine to do
     pub const fn data(self) -> [[D; N]; M] {
         *unsafe { transmute::<&[D; M * N], &[[D; N]; M]>(&self.dat) }
+    }
+}
+
+// Different impl block to make it so so the number of coluns can only be one
+impl<D, const M: usize> Matrix<D, M, 1>
+where
+    D: Data,
+    [D; M * 1]: Sized,
+{
+    // To create column vectors without having to pass in [[1], [2], [3], ... , [n]]
+    // Doesn't return a result as the function can't fail as long as the passed arguments can be
+    // passed
+    pub const fn vector(dat: [D; M * 1]) -> Self {
+        Matrix { dat }
     }
 }
