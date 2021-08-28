@@ -1,42 +1,5 @@
-// NOTE: For some reason the kernel panics if the return type is changed from the explicit type
-// to 'Self::Output' DO NOT CHANGE THE RETURN TYPES output has to be set to satisfy the traits
-use super::{Data, Matrix};
-use std::ops::{Add, Index, Mul, Sub};
-use std::{
-    fmt::{Display, Formatter},
-    usize,
-};
-
-impl<T, const X: usize, const Y: usize> Display for Matrix<T, X, Y>
-where
-    [T; X * Y]: Sized,
-    T: Data + std::fmt::Debug,
-{
-    // Prints a two dimensional representaion of the matrix
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        for row in 0..Y {
-            for col in 0..X {
-                write!(f, "{:>2?},", self.dat[X * row + col])?;
-            }
-            writeln!(f)?;
-        }
-        Ok(())
-    }
-}
-
-impl<T: Data, const M: usize, const N: usize> Index<[usize; 2]> for Matrix<T, M, N>
-where
-    [T; M * N]: Sized,
-{
-    type Output = T;
-    fn index(&self, index: [usize; 2]) -> &T {
-        if index[0] >= M || index[1] >= N {
-            // TODO: Write better error message
-            panic!("Index out of bounds.");
-        }
-        &self.dat[index[0] * N + index[1]]
-    }
-}
+use crate::{Data, Matrix};
+use core::ops::{Add, Mul, Sub};
 
 impl<T, U, const X: usize, const Y: usize> Add<Matrix<U, X, Y>> for Matrix<T, X, Y>
 where
@@ -48,8 +11,8 @@ where
     fn add(self, other: Matrix<U, X, Y>) -> Self {
         // Clone data then add second array to each value
         let mut dat: [T; X * Y] = self.dat;
-        for i in 0..X * Y {
-            dat[i] = dat[i] + other.dat[i];
+        for (i, v) in dat.iter_mut().enumerate().take(X * Y) {
+            *v = *v + other.dat[i];
         }
         Matrix { dat }
     }
@@ -58,15 +21,15 @@ where
 impl<T, U, const X: usize, const Y: usize> Sub<Matrix<U, X, Y>> for Matrix<T, X, Y>
 where
     [T; X * Y]: Sized,
-    T: Data + Add<U, Output = T>,
+    T: Data + Sub<U, Output = T>,
     U: Data,
 {
     type Output = Self;
     fn sub(self, other: Matrix<U, X, Y>) -> Self {
         // Clone data then add second array to each value
         let mut dat: [T; X * Y] = self.dat;
-        for i in 0..X * Y {
-            dat[i] = dat[i] + other.dat[i];
+        for (i, v) in dat.iter_mut().enumerate().take(X * Y) {
+            *v = *v - other.dat[i];
         }
         Matrix { dat }
     }
