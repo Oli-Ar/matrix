@@ -14,7 +14,7 @@ to be stored within it.
 - [x] Create a matrix structure which can accept multiple numerical data types
     - [x] Implement display trait
     - [x] Implement a trait allowing for the matrices to be indexed
-        - ~~[ ] Implement a method for indexing without the possibility of panicking~~
+        - [ ] ~~Implement a method for indexing without the possibility of panicking~~
     - [x] Implement addition and subtraction to the matrices
         - [x] Implement addition
         - [x] Implement subtraction

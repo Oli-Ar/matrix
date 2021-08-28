@@ -15,3 +15,9 @@ fn column_vec() {
     let cv2 = Matrix::<i32, 10, 1>::vector([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     assert_eq!(cv1, cv2);
 }
+
+#[test]
+fn default_vec() {
+    let matrix_1 = Matrix::<i32, 3, 4>::default();
+    assert_eq!(matrix_1.raw(), [0; 12]);
+}

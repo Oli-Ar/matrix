@@ -1,4 +1,5 @@
 use crate::{Data, Matrix};
+use core::default::Default;
 use core::fmt::{self, Debug, Display, Formatter};
 use core::mem::transmute;
 use core::ops::Index;
@@ -33,6 +34,18 @@ where
     #[inline(always)]
     pub const fn data(self) -> [[D; N]; M] {
         *unsafe { transmute::<&[D; M * N], &[[D; N]; M]>(&self.dat) }
+    }
+}
+
+impl<D, const M: usize, const N: usize> Default for Matrix<D, M, N>
+where
+    D: Data + Default,
+    [D; M * N]: Sized,
+{
+    fn default() -> Matrix<D, M, N> {
+        Matrix {
+            dat: [Default::default(); M * N],
+        }
     }
 }
 
