@@ -24,6 +24,18 @@ fn add() {
 }
 
 #[test]
+fn subtract() {
+    const M: usize = 5;
+    const N: usize = 2;
+
+    let matrix_1 = Matrix::<i32, M, N>::new([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]);
+    let matrix_2 = Matrix::<i32, M, N>::new([[5, 6], [1, 6], [7, 23], [32, 4], [2, 4]]);
+
+    let matrix_3 = Matrix::<i32, M, N>::new([[-5, -5], [1, -3], [-3, -18], [-26, 3], [6, 5]]);
+    assert_eq!(matrix_1 - matrix_2, matrix_3);
+}
+
+#[test]
 fn scalar_multiplication() {
     const M: usize = 3;
     const N: usize = 3;
