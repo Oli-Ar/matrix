@@ -4,14 +4,20 @@
 
 #![no_std]
 #![allow(clippy::pedantic, incomplete_features)]
-#![feature(trait_alias)]
-#![feature(const_generics)]
-#![feature(const_evaluatable_checked)]
-#![feature(const_fn_trait_bound)]
-#![feature(const_refs_to_cell)]
+#![feature(
+    trait_alias,
+    const_generics,
+    const_evaluatable_checked,
+    const_fn_trait_bound,
+    const_refs_to_cell
+)]
 
-pub mod arithmetic;
-pub mod matrix;
-pub mod utils;
+#[cfg(feature = "heap")]
+extern crate alloc;
+#[cfg(feature = "heap")]
+mod heap;
+#[cfg(feature = "heap")]
+pub use heap::HeapMatrix;
 
-pub use crate::matrix::{Data, Matrix};
+mod stack;
+pub use stack::StackMatrix;
