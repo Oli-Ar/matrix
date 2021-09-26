@@ -3,6 +3,7 @@ name = "matrix"
 version = "0.1.0"
 authors = ["Oliver <oliver@archer.fi>"]
 edition = "2018"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -11,6 +12,10 @@ definitions = ["heap"]
 heap = []
 
 [dependencies]
+libc = "0.2"
 
 [dev-dependencies]
 trybuild = { version = "1.0", features = ["diff"] }
+
+[build-dependencies]
+cc = "1.0"
