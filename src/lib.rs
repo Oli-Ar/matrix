@@ -8,7 +8,6 @@
     trait_alias,
     generic_const_exprs,
     const_fn_trait_bound,
-    generic_const_exprs,
     const_refs_to_cell
 )]
 

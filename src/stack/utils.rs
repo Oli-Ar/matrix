@@ -114,16 +114,3 @@ where
         &mut self.buf[index[0] * N + index[1]]
     }
 }
-
-extern "C" {
-    fn print_num(num: libc::c_int);
-}
-
-impl<D: Copy, const M: usize, const N: usize> StackMatrix<D, M, N>
-where
-    [D; M * N]: Sized,
-{
-    pub fn print_input(input: i32) {
-        unsafe { print_num(input) };
-    }
-}
