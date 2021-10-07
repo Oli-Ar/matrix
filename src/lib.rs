@@ -6,17 +6,22 @@
 #![allow(clippy::pedantic, incomplete_features)]
 #![feature(
     trait_alias,
+    generic_const_exprs,
     const_fn_trait_bound,
     generic_const_exprs,
     const_refs_to_cell
 )]
 
 #[cfg(feature = "heap")]
-extern crate alloc;
+extern crate std;
 #[cfg(feature = "heap")]
 mod heap;
 #[cfg(feature = "heap")]
 pub use heap::HeapMatrix;
+#[cfg(feature = "heap")]
+mod error;
+#[cfg(feature = "heap")]
+pub use error::MatrixError;
 
 mod stack;
 pub use stack::StackMatrix;

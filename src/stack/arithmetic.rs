@@ -9,11 +9,11 @@ where
     type Output = Self;
     fn add(self, other: StackMatrix<O, M, N>) -> Self {
         // Clone data then add second array to each value
-        let mut dat: [D; M * N] = self.dat;
-        for (i, v) in dat.iter_mut().enumerate().take(M * N) {
-            *v = *v + other.dat[i];
+        let mut buf: [D; M * N] = self.buf;
+        for (i, v) in buf.iter_mut().enumerate().take(M * N) {
+            *v = *v + other.buf[i];
         }
-        StackMatrix { dat }
+        StackMatrix { buf }
     }
 }
 
@@ -25,11 +25,11 @@ where
     type Output = Self;
     fn sub(self, other: StackMatrix<O, M, N>) -> Self {
         // Clone data then add second array to each value
-        let mut dat: [D; M * N] = self.dat;
-        for (i, v) in dat.iter_mut().enumerate().take(M * N) {
-            *v = *v - other.dat[i];
+        let mut buf: [D; M * N] = self.buf;
+        for (i, v) in buf.iter_mut().enumerate().take(M * N) {
+            *v = *v - other.buf[i];
         }
-        StackMatrix { dat }
+        StackMatrix { buf }
     }
 }
 
@@ -42,11 +42,11 @@ where
 {
     type Output = Self;
     fn mul(self, rhs: O) -> StackMatrix<D, M, N> {
-        let mut dat_copy = self.dat;
-        for (i, e) in self.dat.iter().enumerate() {
-            dat_copy[i] = rhs * *e;
+        let mut buf_copy = self.buf;
+        for (i, e) in self.buf.iter().enumerate() {
+            buf_copy[i] = rhs * *e;
         }
-        StackMatrix { dat: dat_copy }
+        StackMatrix { buf: buf_copy }
     }
 }
 
@@ -83,6 +83,8 @@ where
 
 #[cfg(feature = "heap")]
 use crate::heap::HeapMatrix;
+#[cfg(feature = "heap")]
+use crate::MatrixError;
 
 #[cfg(feature = "heap")]
 impl<T, U, const A: usize, const B: usize> Mul<HeapMatrix<U>> for StackMatrix<T, A, B>
@@ -91,9 +93,24 @@ where
     T: Mul<U, Output = T> + Add<Output = T> + Copy + Default,
     U: Copy,
 {
-    type Output = HeapMatrix<T>;
-    fn mul(self, _rhs: HeapMatrix<U>) -> HeapMatrix<T> {
-        unimplemented!();
+    type Output = Result<HeapMatrix<T>, MatrixError>;
+    fn mul(self, rhs: HeapMatrix<U>) -> Result<HeapMatrix<T>, MatrixError> {
+        if B != rhs.rows {
+            return Err(MatrixError::InvalidMulInput((A, B), (rhs.rows, rhs.cols)));
+        }
+        let mut mat = HeapMatrix::<T> {
+            rows: A,
+            cols: rhs.cols,
+            ..Default::default()
+        };
+        for i in 0..A {
+            for j in 0..rhs.cols {
+                for k in 0..B {
+                    mat[[i, j]] = mat[[i, j]] + self[[i, k]] * rhs[[k, j]];
+                }
+            }
+        }
+        Ok(mat)
     }
 }
 
