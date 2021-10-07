@@ -1,20 +1,21 @@
-use std::path::PathBuf;
+use std::env;
+use std::path::Path;
 use std::process::Command;
-extern crate cc;
 fn main() {
-    let mut cuda_lib = PathBuf::from("./CUDA");
+    let manifest = env::var("CARGO_MANIFEST_DIR").expect("uhoh");
+    let c_lib_path = format!("{}/CUDA/", manifest);
+    let c_lib = Path::new(&c_lib_path);
     Command::new("meson")
         .arg("build")
-        .current_dir(&cuda_lib)
+        .current_dir(&c_lib)
         .output()
         .unwrap();
-    cuda_lib.push("build");
     Command::new("meson")
         .arg("compile")
-        .current_dir(&cuda_lib)
+        .current_dir(&c_lib.join("build"))
         .output()
         .unwrap();
 
-    println!("cargo:rustc-link-search=native={}", (*cuda_lib).display());
+    println!("cargo:rustc-link-search=native={}", c_lib_path);
     println!("cargo:rustc-link-lib=dylib=cuda");
 }

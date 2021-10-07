@@ -119,6 +119,7 @@ extern "C" {
     fn print_num(num: libc::c_int);
 }
 
+// TODO: DELETE THIS
 impl<D: Copy, const M: usize, const N: usize> StackMatrix<D, M, N>
 where
     [D; M * N]: Sized,
