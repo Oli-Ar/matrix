@@ -5,5 +5,5 @@ pub struct StackMatrix<D, const M: usize, const N: usize>
 where
     [D; M * N]: Sized,
 {
-    pub(crate) dat: [D; M * N],
+    pub(crate) buf: [D; M * N],
 }

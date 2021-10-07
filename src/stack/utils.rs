@@ -17,14 +17,14 @@ where
         // This is done so the new function is const and doesn't required a for loop to copy the
         // data into the flattened array (O(1) instead of O(n))
         StackMatrix {
-            dat: *unsafe { transmute::<&[[D; N]; M], &[D; M * N]>(&data) },
+            buf: *unsafe { transmute::<&[[D; N]; M], &[D; M * N]>(&data) },
         }
     }
 
     // For getting the raw data stored in the matrix struct
     #[inline(always)]
     pub const fn raw(self) -> [D; M * N] {
-        self.dat
+        self.buf
     }
 
     // Returns the data stored in the matrix struct in 2D array form
@@ -32,7 +32,7 @@ where
     // this should be fine to do (Again O(1) instead of O(N))
     #[inline(always)]
     pub const fn data(self) -> [[D; N]; M] {
-        *unsafe { transmute::<&[D; M * N], &[[D; N]; M]>(&self.dat) }
+        *unsafe { transmute::<&[D; M * N], &[[D; N]; M]>(&self.buf) }
     }
 
     // Returns the size of the matrix
@@ -48,7 +48,7 @@ where
 {
     fn default() -> StackMatrix<D, M, N> {
         StackMatrix {
-            dat: [Default::default(); M * N],
+            buf: [Default::default(); M * N],
         }
     }
 }
@@ -65,8 +65,8 @@ where
     // Doesn't return a result as the function can't fail as long as the passed arguments can be
     // passed
     #[inline(always)]
-    pub const fn vector(dat: [D; M * 1]) -> Self {
-        StackMatrix { dat }
+    pub const fn vector(buf: [D; M * 1]) -> Self {
+        StackMatrix { buf }
     }
 }
 
@@ -78,7 +78,7 @@ where
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         for row in 0..N {
             for col in 0..M {
-                write!(f, "{:>2?},", self.dat[M * row + col])?;
+                write!(f, "{:>2?},", self.buf[M * row + col])?;
             }
             writeln!(f)?;
         }
@@ -98,7 +98,7 @@ where
         //     // TODO: Write better error message
         //     panic!("Index out of bounds.");
         // }
-        &self.dat[index[0] * N + index[1]]
+        &self.buf[index[0] * N + index[1]]
     }
 }
 
@@ -111,6 +111,6 @@ where
         //     // TODO: Write better error message
         //     panic!("Index out of bounds.");
         // }
-        &mut self.dat[index[0] * N + index[1]]
+        &mut self.buf[index[0] * N + index[1]]
     }
 }
