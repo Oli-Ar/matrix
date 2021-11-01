@@ -81,39 +81,6 @@ where
     }
 }
 
-#[cfg(feature = "heap")]
-use crate::heap::HeapMatrix;
-#[cfg(feature = "heap")]
-use crate::MatrixError;
-
-#[cfg(feature = "heap")]
-impl<T, U, const A: usize, const B: usize> Mul<HeapMatrix<U>> for StackMatrix<T, A, B>
-where
-    [T; A * B]: Sized,
-    T: Mul<U, Output = T> + Add<Output = T> + Copy + Default,
-    U: Copy,
-{
-    type Output = Result<HeapMatrix<T>, MatrixError>;
-    fn mul(self, rhs: HeapMatrix<U>) -> Result<HeapMatrix<T>, MatrixError> {
-        if B != rhs.rows {
-            return Err(MatrixError::InvalidMulInput((A, B), (rhs.rows, rhs.cols)));
-        }
-        let mut mat = HeapMatrix::<T> {
-            rows: A,
-            cols: rhs.cols,
-            ..Default::default()
-        };
-        for i in 0..A {
-            for j in 0..rhs.cols {
-                for k in 0..B {
-                    mat[[i, j]] = mat[[i, j]] + self[[i, k]] * rhs[[k, j]];
-                }
-            }
-        }
-        Ok(mat)
-    }
-}
-
 impl<D, const M: usize, const N: usize> StackMatrix<D, M, N>
 where
     D: Default + Copy,
