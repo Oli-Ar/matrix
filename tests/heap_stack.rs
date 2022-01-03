@@ -1,9 +1,10 @@
-use matrix::*;
+use matrix::heap::HeapMatrix;
+use matrix::stack::Matrix;
 
 #[test]
 fn cross_mul() {
     const M: usize = 3;
-    let stack_matrix = StackMatrix::<i32, M, M>::new([[5, 35, 62], [14, 54, 34], [23, 52, 8]]);
+    let stack_matrix = Matrix::<i32, M, M>::new([[5, 35, 62], [14, 54, 34], [23, 52, 8]]);
     let heap_matrix = HeapMatrix::<i32>::new(&[&[54, 62, 72], &[43, 5, 32], &[235, 24, 2]]);
     let heap_result = HeapMatrix::<i32>::new(&[
         &[16345, 1973, 1604],

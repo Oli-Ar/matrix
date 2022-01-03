@@ -4,5 +4,5 @@ error[E0308]: mismatched types
 19 |     matrix_1 + matrix_2;
    |                ^^^^^^^^ expected `6_usize`, found `3_usize`
    |
-   = note: expected struct `StackMatrix<_, 6_usize, 4_usize>`
-              found struct `StackMatrix<i32, 3_usize, 3_usize>`
+   = note: expected struct `Matrix<_, 6_usize, 4_usize>`
+              found struct `Matrix<i32, 3_usize, 3_usize>`

@@ -1,5 +1,5 @@
 error[E0308]: mismatched types
- --> $DIR/multi_dim_array.rs:7:48
+ --> $DIR/multi_dim_array.rs:7:43
   |
-7 |     let _ = StackMatrix::<i32, M, N>::new([[1, [2, 3]], [4, 5, 6], [7, 8, 9]]);
-  |                                                ^^^^^^ expected `i32`, found array `[{integer}; 2]`
+7 |     let _ = Matrix::<i32, M, N>::new([[1, [2, 3]], [4, 5, 6], [7, 8, 9]]);
+  |                                           ^^^^^^ expected `i32`, found array `[{integer}; 2]`
