@@ -21,18 +21,15 @@ impl<D: Clone> HeapMatrix<D> {
         }
     }
 
-    #[inline(always)]
     pub fn raw(self) -> Vec<D> {
         self.buf
     }
 
     // These lifetimes work, don't touch
-    #[inline(always)]
     pub fn data<'a>(&'a self) -> Vec<&'a [D]> {
         self.buf.chunks(self.cols).collect::<Vec<&'a [D]>>()
     }
 
-    #[inline(always)]
     pub fn size(self) -> (usize, usize) {
         (self.cols, self.rows)
     }
