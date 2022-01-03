@@ -2,14 +2,14 @@
 use std::fmt::{self, Display, Formatter};
 
 #[derive(Debug)]
-pub enum MatrixError {
+pub enum Error {
     InvalidOrderMatrix((usize, usize), (usize, usize)),
 }
 
-impl Display for MatrixError {
+impl Display for Error {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            &MatrixError::InvalidOrderMatrix(expected, given) => {
+            &Error::InvalidOrderMatrix(expected, given) => {
                 writeln!(
                     f,
                     "Invalid multiplication error expected size of matrix was {}x{} but was 
