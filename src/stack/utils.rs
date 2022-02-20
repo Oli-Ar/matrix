@@ -6,7 +6,7 @@ use core::ops::{Index, IndexMut};
 
 impl<D: Copy, const M: usize, const N: usize> Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
 {
     // Compiler will assets that passed in array is correct size so returing a result is not
     // required
@@ -28,14 +28,14 @@ where
     }
 
     // Returns the size of the matrix
-    pub const fn size() -> (usize, usize) {
+    pub const fn size(self) -> (usize, usize) {
         (M, N)
     }
 }
 
 impl<D: Default + Copy, const M: usize, const N: usize> Default for Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
 {
     fn default() -> Matrix<D, M, N> {
         Matrix {
@@ -48,7 +48,7 @@ where
 // Allow clippy indentity op here so clippy doesn't complain about how M * 1 can be reduced to M,
 // it can't because the type of dat must be M * N and in this scenario N is always 1
 #[allow(clippy::identity_op)]
-impl<D, const M: usize> Matrix<D, M, 1>
+impl<D: Copy, const M: usize> Matrix<D, M, 1>
 where
     [D; M * 1]: Sized,
 {
@@ -60,9 +60,9 @@ where
     }
 }
 
-impl<D: Debug, const M: usize, const N: usize> Display for Matrix<D, M, N>
+impl<D: Debug + Copy, const M: usize, const N: usize> Display for Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
 {
     // Prints a two dimensional representaion of the matrix
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
@@ -78,9 +78,9 @@ where
 
 // TODO: maybe handle some errors here, currently it panics as expected however the error message
 // doesn't make sense because of the matrix being stored as a 1 dimensional array
-impl<D, const M: usize, const N: usize> Index<[usize; 2]> for Matrix<D, M, N>
+impl<D: Copy, const M: usize, const N: usize> Index<[usize; 2]> for Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
 {
     type Output = D;
     fn index(&self, index: [usize; 2]) -> &D {
@@ -92,9 +92,9 @@ where
     }
 }
 
-impl<D, const M: usize, const N: usize> IndexMut<[usize; 2]> for Matrix<D, M, N>
+impl<D: Copy, const M: usize, const N: usize> IndexMut<[usize; 2]> for Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
 {
     fn index_mut(&mut self, index: [usize; 2]) -> &mut D {
         // if index[0] >= M || index[1] >= N {

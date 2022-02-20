@@ -3,7 +3,7 @@ use core::ops::{Add, Mul, Sub};
 
 impl<D, O: Copy, const M: usize, const N: usize> Add<Matrix<O, M, N>> for Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
     D: Add<O, Output = D> + Copy,
 {
     type Output = Self;
@@ -19,7 +19,7 @@ where
 
 impl<D, O: Copy, const M: usize, const N: usize> Sub<Matrix<O, M, N>> for Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
     D: Sub<O, Output = D> + Copy,
 {
     type Output = Self;
@@ -37,7 +37,7 @@ where
 // TODO: Make this number * matrix not matrix * number
 impl<D, O, const M: usize, const N: usize> Mul<O> for Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
     D: Mul<O, Output = D> + Copy,
     O: Into<f64> + Mul<D, Output = D> + Copy,
 {
@@ -59,9 +59,9 @@ where
 // verified purely in the decleration of this implementation.
 impl<T, U, const A: usize, const B: usize, const C: usize> Mul<Matrix<U, B, C>> for Matrix<T, A, B>
 where
-    [T; A * B]: Sized, // Matrix one
-    [U; B * C]: Sized, // Matrix two
-    [T; A * C]: Sized, // Resulting matrix
+    [(); A * B]:, // Matrix one
+    [(); B * C]:, // Matrix two
+    [(); A * C]:, // Resulting matrix
     T: Mul<U, Output = T> + Add<Output = T> + Copy + Default,
     U: Copy,
 {
@@ -84,8 +84,8 @@ where
 impl<D, const M: usize, const N: usize> Matrix<D, M, N>
 where
     D: Default + Copy,
-    [D; M * N]: Sized,
-    [D; N * M]: Sized,
+    [(); M * N]:,
+    [(); N * M]:,
 {
     pub fn transpose(self) -> Matrix<D, N, M> {
         let mut mat: Matrix<D, N, M> = super::Matrix::default();
