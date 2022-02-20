@@ -3,18 +3,22 @@
 #[derive(Debug, Eq, PartialEq, Clone, Copy)]
 pub struct Matrix<D, const M: usize, const N: usize>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
 {
     pub(super) buf: [D; M * N],
 }
 
 impl<D, const M: usize, const N: usize> Matrix<D, M, N>
 where
-    [D; M * N]: Sized,
+    [(); M * N]:,
 {
     // Getter method
     pub const fn buf(&self) -> &[D; M * N] {
         &self.buf
+    }
+
+    pub const fn buf_copy(&self) -> [D; M * N] {
+        self.buf
     }
 
     // Returns a mutable reference to buffer so it can be edited, this function is only visible to
