@@ -20,4 +20,5 @@ pub mod error;
 #[cfg(feature = "heap")]
 pub mod heap;
 
+pub mod matrix;
 pub mod stack;

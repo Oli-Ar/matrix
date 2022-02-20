@@ -1,3 +1,4 @@
+use super::super::matrix::Matrix as MatrixTrait;
 // The initial generic matrix structure
 // All fields are private as the struct will have methods to display the matrix
 #[derive(Debug, Eq, PartialEq, Clone, Copy)]
@@ -8,7 +9,9 @@ where
     pub(super) buf: [D; M * N],
 }
 
-impl<D, const M: usize, const N: usize> Matrix<D, M, N>
+impl<D, const M: usize, const N: usize> MatrixTrait for Matrix<D, M, N> where [(); M * N]: {}
+
+impl<D: Copy, const M: usize, const N: usize> Matrix<D, M, N>
 where
     [(); M * N]:,
 {
