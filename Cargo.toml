@@ -6,11 +6,12 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[features]
-definitions = ["heap"]
-heap = []
-
 [dependencies]
+rand = { version = "0.8", optional = true }
 
 [dev-dependencies]
 trybuild = { version = "1.0", features = ["diff"] }
+
+[features]
+heap = []
+rand = ["dep:rand"]

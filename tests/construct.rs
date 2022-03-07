@@ -21,3 +21,9 @@ fn default_matrix() {
     let matrix_1 = Matrix::<i32, 3, 4>::default();
     assert_eq!(matrix_1.buf(), &[0; 12]);
 }
+
+#[test]
+fn random_matrix() {
+    let matrix = Matrix::<f64, 3, 4>::random();
+    println!("{matrix}");
+}

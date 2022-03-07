@@ -4,9 +4,13 @@ use core::fmt::{self, Debug, Display, Formatter};
 use core::mem::transmute;
 use core::ops::{Index, IndexMut};
 
+#[cfg(feature = "rand")]
+use rand::prelude::{thread_rng, Rng};
+
 impl<D: Copy, const M: usize, const N: usize> Matrix<D, M, N>
 where
     [(); M * N]:,
+    [(); M * N * 16]:,
 {
     // Compiler will assets that passed in array is correct size so returing a result is not
     // required
@@ -30,6 +34,22 @@ where
     // Returns the size of the matrix
     pub const fn size(self) -> (usize, usize) {
         (M, N)
+    }
+}
+
+// TODO: make more generic
+#[cfg(feature = "rand")]
+impl<const M: usize, const N: usize> Matrix<f64, M, N>
+where
+    [(); M * N]:,
+{
+    pub fn random() -> Self {
+        let mut rng = thread_rng();
+        let mut buf = [0.0_f64; M * N];
+        for i in buf.iter_mut() {
+            *i = rng.gen();
+        }
+        Matrix { buf }
     }
 }
 
