@@ -1,6 +1,7 @@
 use super::Matrix;
 use core::default::Default;
 use core::fmt::{self, Debug, Display, Formatter};
+use core::iter::Iterator;
 use core::mem::transmute;
 use core::ops::{Index, IndexMut};
 
@@ -10,7 +11,6 @@ use rand::prelude::{thread_rng, Rng};
 impl<D: Copy, const M: usize, const N: usize> Matrix<D, M, N>
 where
     [(); M * N]:,
-    [(); M * N * 16]:,
 {
     // Compiler will assets that passed in array is correct size so returing a result is not
     // required
@@ -68,7 +68,7 @@ where
 // Allow clippy indentity op here so clippy doesn't complain about how M * 1 can be reduced to M,
 // it can't because the type of dat must be M * N and in this scenario N is always 1
 #[allow(clippy::identity_op)]
-impl<D: Copy, const M: usize> Matrix<D, M, 1>
+impl<D, const M: usize> Matrix<D, M, 1>
 where
     [D; M * 1]: Sized,
 {
@@ -80,7 +80,7 @@ where
     }
 }
 
-impl<D: Debug + Copy, const M: usize, const N: usize> Display for Matrix<D, M, N>
+impl<D: Debug, const M: usize, const N: usize> Display for Matrix<D, M, N>
 where
     [(); M * N]:,
 {
@@ -98,7 +98,7 @@ where
 
 // TODO: maybe handle some errors here, currently it panics as expected however the error message
 // doesn't make sense because of the matrix being stored as a 1 dimensional array
-impl<D: Copy, const M: usize, const N: usize> Index<[usize; 2]> for Matrix<D, M, N>
+impl<D, const M: usize, const N: usize> Index<[usize; 2]> for Matrix<D, M, N>
 where
     [(); M * N]:,
 {
@@ -112,7 +112,7 @@ where
     }
 }
 
-impl<D: Copy, const M: usize, const N: usize> IndexMut<[usize; 2]> for Matrix<D, M, N>
+impl<D, const M: usize, const N: usize> IndexMut<[usize; 2]> for Matrix<D, M, N>
 where
     [(); M * N]:,
 {
@@ -122,5 +122,20 @@ where
         //     panic!("Index out of bounds.");
         // }
         &mut self.buf_mut()[index[0] * N + index[1]]
+    }
+}
+
+impl<D: Copy, const M: usize, const N: usize> Iterator for Matrix<D, M, N>
+where
+    [(); M * N]:,
+{
+    type Item = D;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        Some(self[[0, 0]])
+    }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        (0, Some(M * N - 1))
     }
 }

@@ -80,6 +80,14 @@ fn index() {
 }
 
 #[test]
+fn iter() {
+    const M: usize = 3;
+    const N: usize = 3;
+    let matrix = Matrix::<i32, M, N>::new([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+    matrix.iter()
+}
+
+#[test]
 #[should_panic(expected = "index out of bounds: the len is 15 but the index is 15")]
 fn index_x_out_of_bounds() {
     const M: usize = 3;
