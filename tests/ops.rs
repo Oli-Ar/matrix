@@ -83,8 +83,8 @@ fn index() {
 fn iter() {
     const M: usize = 3;
     const N: usize = 3;
-    let matrix = Matrix::<i32, M, N>::new([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
-    matrix.iter()
+    let mut matrix = Matrix::<i32, M, N>::new([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+    matrix.next();
 }
 
 #[test]

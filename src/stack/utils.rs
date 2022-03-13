@@ -80,7 +80,7 @@ where
     }
 }
 
-impl<D: Debug, const M: usize, const N: usize> Display for Matrix<D, M, N>
+impl<D: Copy + Debug, const M: usize, const N: usize> Display for Matrix<D, M, N>
 where
     [(); M * N]:,
 {
@@ -98,7 +98,7 @@ where
 
 // TODO: maybe handle some errors here, currently it panics as expected however the error message
 // doesn't make sense because of the matrix being stored as a 1 dimensional array
-impl<D, const M: usize, const N: usize> Index<[usize; 2]> for Matrix<D, M, N>
+impl<D: Copy, const M: usize, const N: usize> Index<[usize; 2]> for Matrix<D, M, N>
 where
     [(); M * N]:,
 {
@@ -112,7 +112,7 @@ where
     }
 }
 
-impl<D, const M: usize, const N: usize> IndexMut<[usize; 2]> for Matrix<D, M, N>
+impl<D: Copy, const M: usize, const N: usize> IndexMut<[usize; 2]> for Matrix<D, M, N>
 where
     [(); M * N]:,
 {
@@ -131,7 +131,7 @@ where
 {
     type Item = D;
 
-    fn next(&mut self) -> Option<Self::Item> {
+    fn next(&mut self) -> Option<D> {
         Some(self[[0, 0]])
     }
 
