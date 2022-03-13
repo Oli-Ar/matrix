@@ -2,3 +2,4 @@
 Cargo.lock
 .idea/
 /Cuda/build
+.vscode/
